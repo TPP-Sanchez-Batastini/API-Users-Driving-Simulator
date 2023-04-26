@@ -1,11 +1,11 @@
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database.models import Base
 import os
 
 def initialize_database():
-    load_dotenv()
+    load_dotenv(find_dotenv())
     engine = create_engine(os.getenv("DB_URL"), echo=True)
     global SessionLocal
     SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
