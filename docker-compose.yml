@@ -24,6 +24,9 @@ services:
     restart: on-failure
     ports:
       - 8001:8001
+    volumes:
+      - ./app:/usr/src/app/app
+      - ./routers:/usr/src/app/routers
 
     
   # Servicio de pgAdmin web
@@ -44,3 +47,5 @@ networks:
     name: postgre-service_default
 volumes:
   postgres-okteto:
+  app:
+  routers:
