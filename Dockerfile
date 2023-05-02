@@ -6,6 +6,7 @@ ADD ./main.py main.py
 COPY ./app app
 COPY ./database database
 COPY ./routers routers
+COPY ./controllers controllers
 VOLUME /app
 VOLUME /routers
 EXPOSE 8001
