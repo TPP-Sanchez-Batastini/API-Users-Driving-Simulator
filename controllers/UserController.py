@@ -16,7 +16,8 @@ def create_user_in_db(userRegistration: UserModels.UserRegistration):
     statement = insert(User).values(
         username = userRegistration.name_to_show,
         email = str(userRegistration.email).lower(),
-        password = userRegistration.password # Should come hashed...
+        password = userRegistration.password, # Should come hashed...
+        federated_with = None
     )
     try:
         session.execute(statement)
@@ -34,7 +35,8 @@ def login(userLogin: UserModels.UserLogin):
     session = get_local_session()
     queried = session.query(User).filter_by(
         email = str(userLogin.email).lower(),
-        password = userLogin.password
+        password = userLogin.password,
+        federated_with = None
     )
     if not session.query(queried.exists()).scalar:
         raise Exception("Usuario o contraseña erróneos. Intente nuevamente.")

@@ -28,6 +28,7 @@ services:
       - ./app:/usr/src/app/app
       - ./routers:/usr/src/app/routers
       - ./controllers:/usr/src/app/controllers
+      - ./database:/usr/src/app/database
 
     
   # Servicio de pgAdmin web
@@ -51,3 +52,4 @@ volumes:
   app:
   routers:
   controllers:
+  database:
