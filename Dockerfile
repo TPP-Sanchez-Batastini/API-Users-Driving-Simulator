@@ -8,6 +8,7 @@ COPY ./app app
 COPY ./database database
 COPY ./routers routers
 COPY ./controllers controllers
+COPY ./utils utils
 VOLUME /app
 VOLUME /routers
 EXPOSE 8001
