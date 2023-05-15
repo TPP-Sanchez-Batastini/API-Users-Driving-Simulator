@@ -4,15 +4,18 @@ import os
 import requests
 
 async def validateOAuthToken(token):
-    CLIENT_ID = os.getenv("OAUTH_CLIENT_ID")
     try:
-        idinfo = id_token.verify_oauth2_token(token, reqGoogle.Request(), CLIENT_ID)
-        userid = idinfo['sub']
-    except ValueError:
-        raise Exception("Token OAuth2 Inválido.")
-    google_response = await requests.get(f"https://oauth2.googleapis.com/tokeninfo?id_token={token}")
-    resp = google_response.json()
-    return {
-        "nameToShow": resp["name"],
-        "email": resp["email"]
-    }
+        CLIENT_ID = os.getenv("OAUTH_CLIENT_ID")
+        try:
+            idinfo = id_token.verify_oauth2_token(token, reqGoogle.Request(), CLIENT_ID)
+            userid = idinfo['sub']
+        except ValueError:
+            raise Exception("Token OAuth2 Inválido.")
+        google_response = requests.get(f"https://oauth2.googleapis.com/tokeninfo?id_token={token}")
+        resp = google_response.json()
+        return {
+            "nameToShow": resp["name"],
+            "email": resp["email"]
+        }
+    except Exception as e:
+        raise Exception(f"Error al traducir Token a Sesion: {str(e)}")

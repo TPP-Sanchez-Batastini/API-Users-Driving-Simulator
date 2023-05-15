@@ -4,7 +4,7 @@ from typing import Optional
 class UserRegistration(BaseModel):
     name_to_show: str
     email: EmailStr
-    password: str
+    password: str | None
     federated_with: Optional[str]
 
 
