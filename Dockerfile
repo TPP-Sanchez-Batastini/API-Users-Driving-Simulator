@@ -11,5 +11,8 @@ COPY ./controllers controllers
 COPY ./utils utils
 VOLUME /app
 VOLUME /routers
+VOLUME /controllers
+VOLUME /database
+VOLUME /utils
 EXPOSE 8001
 CMD ["python3", "main.py"]
