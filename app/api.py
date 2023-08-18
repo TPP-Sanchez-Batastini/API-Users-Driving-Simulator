@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import UserAccounts, UserProgress
+from routers import UserAccounts, UserProgress, Levels
 from database.engine import initialize_database
 
 app = FastAPI()
@@ -15,10 +15,5 @@ app.add_middleware(
 )
 
 app.include_router(UserAccounts.router, prefix="/users", tags=["Users"])
-app.include_router(UserProgress.router, prefix="/levels", tags=["Level Progress"])
-
-@app.get("/", tags=["Home"])
-def get_root():
-    return {
-        "message": "First endpoint"
-    }
+app.include_router(UserProgress.router, prefix="/user_progress", tags=["Level Progress"])
+app.include_router(Levels.router, prefix="/levels", tags=["Levels"])
