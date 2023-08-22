@@ -1,5 +1,6 @@
 from pydantic import BaseModel, EmailStr
 from typing import Optional
+import datetime
 
 class UserRegistration(BaseModel):
     name_to_show: str
@@ -30,5 +31,6 @@ class UserLogon(BaseModel):
 class UserLogonResponse(BaseModel):
     message: str
     user: UserLogon
+    exp: datetime.datetime
     jwt: str
     

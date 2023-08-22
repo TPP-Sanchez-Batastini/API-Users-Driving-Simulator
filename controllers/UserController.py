@@ -5,6 +5,8 @@ from database.engine import get_local_session
 from fastapi import status
 from utils.JWTValidator import encode_jwt
 from utils.GoogleTokenValidator import validateOAuthToken
+import datetime
+from datetime import timezone
 
 
 def create_user_in_db(userRegistration):
@@ -78,6 +80,7 @@ def get_public_user_data(email):
         return UserModels.UserLogonResponse(
             message = "Sesión iniciada correctamente.",
             user = usr_response,
+            exp = datetime.datetime.now(tz=timezone.utc) + datetime.timedelta(minutes=120),
             jwt = encoded_jwt
         )
     except Exception as e:
