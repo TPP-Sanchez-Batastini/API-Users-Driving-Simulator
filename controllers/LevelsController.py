@@ -1,8 +1,6 @@
-from routers.models import LevelsModels
 from database.models import DefaultLevel
 from sqlalchemy import insert, func, update
 from database.engine import get_local_session
-from fastapi import status
 from fastapi.encoders import jsonable_encoder
 import json
 

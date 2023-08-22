@@ -49,12 +49,16 @@ class CustomLevel(Base):
 
 class UserLevelFinished(Base):
     __tablename__ = "user_levels_finished"
-
-    user_id = Column("user_id", Integer, ForeignKey("users.id"), primary_key=True)
-    custom_level_id = Column("custom_level_id", Integer, ForeignKey("custom_levels.custom_level_id"), primary_key=True)
-    default_level_id = Column("default_level_id", Integer, ForeignKey("default_levels.default_level_id"), primary_key=True)
+    __table_args__ = (
+        CheckConstraint('NOT(custom_level_id IS NULL AND default_level_id IS NULL)'),
+        CheckConstraint('NOT(user_id IS NULL)'),
+    )
+    id = Column("finished_id", Integer, primary_key=True, autoincrement = True)
+    user_id = Column("user_id", Integer, ForeignKey("users.id"))
+    custom_level_id = Column("custom_level_id", Integer, ForeignKey("custom_levels.custom_level_id"))
+    default_level_id = Column("default_level_id", Integer, ForeignKey("default_levels.default_level_id"))
     best_score = Column("best_score", Float, nullable = False)
-    best_time = Column("best_time", Time, nullable = False)
+    best_time = Column("best_time", Float, nullable = False)
 
 
 class LevelTag(Base):
