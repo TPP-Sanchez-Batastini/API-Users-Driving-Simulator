@@ -18,10 +18,8 @@ def userProgressExists(userId, levelId):
     try:
         session = get_local_session()
         queried = session.query(UserLevelFinished).filter(
-            UserLevelFinished.user_id == userId
-            and
-            UserLevelFinished.default_level_id == levelId
-        )
+            UserLevelFinished.user_id == userId).filter(
+            UserLevelFinished.default_level_id == levelId)
         exists = session.query(queried.exists()).scalar()
         session.close()
         return exists
@@ -33,10 +31,8 @@ def isHigherNewScore(score, time, userId, levelId):
     try:
         session = get_local_session()
         queried = session.query(UserLevelFinished).filter(
-            UserLevelFinished.user_id == userId
-            and
-            UserLevelFinished.default_level_id == levelId
-        )
+            UserLevelFinished.user_id == userId).filter(
+            UserLevelFinished.default_level_id == levelId)
         data = queried.first()
         return (data.best_score < score or (data.best_score == score and time < data.best_time))
     except Exception as e:
@@ -91,3 +87,35 @@ def submitLevelProgress(score, time, user_id, level_id):
         return "El progreso del usuario en el nivel ha sido generado exitosamente."
     else:
         return "El nuevo puntaje no ha superado el mejor puntaje del usuario."
+    
+
+def retrieveLevelProgress(user_id, level_id):
+    try:
+        session = get_local_session()
+        queried = session.query(UserLevelFinished).filter(
+            UserLevelFinished.user_id == user_id).filter(
+            UserLevelFinished.default_level_id == level_id)
+        progressData = queried.first()
+        session.close()
+        return {
+            "completed": True,
+            "best_time": progressData.best_time,
+            "best_score": progressData.best_score
+        }
+    except Exception as e:
+        raise Exception(str(e))
+
+
+def getLevelProgress(user_id, level_id):
+    if not user_exists_with_id(user_id):
+        raise Exception("El usuario con el id indicado no existe.")
+    if not levelIdExists(level_id):
+        raise Exception("El nivel con el id indicado no existe.")
+    if not userProgressExists(user_id, level_id):
+        return {
+            "completed": False,
+            "best_time": None,
+            "best_score": None
+        }
+    else:
+        return retrieveLevelProgress(user_id, level_id)

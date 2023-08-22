@@ -5,3 +5,8 @@ class EndOfLevel(BaseModel):
     time: float #Milliseconds
     levelId: int
     userId: int
+
+
+class ProgressData(BaseModel):
+    levelId: int
+    userId: int
